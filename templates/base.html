@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Inventario{% endblock %}</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;background:#f6f6f6}
+.card{background:#fff;padding:1rem;border-radius:8px;margin-bottom:1rem;box-shadow:0 1px 3px #0002}
+table{width:100%;border-collapse:collapse}
+th,td{padding:.5rem;border-bottom:1px solid #ddd;text-align:left}
+.bajo{color:#b00;font-weight:bold}
+form{display:flex;gap:.5rem;flex-wrap:wrap}
+input,button{padding:.5rem}
+button{cursor:pointer}
+.ok{color:#0a0}.err{color:#b00}
+</style>
+</head>
+<body>
+<h1>Inventario</h1>
+{% block content %}{% endblock %}
+</body>
+</html>
