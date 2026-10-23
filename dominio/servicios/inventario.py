@@ -1,5 +1,5 @@
-from .puertos import ProductoRepositorioPort
-from .entidades import Producto
+from ..entidades import Producto
+from ..puertos import ProductoRepositorioPort
 
 
 class ServicioAgregarProducto:
@@ -60,11 +60,11 @@ class ServicioObtenerResumen:
         productos = self.repo.listar_todos()
         return [
             {
-                "sku": p.sku,
-                "nombre": p.nombre,
-                "stock": p.stock,
-                "precio": p.precio,
-                "stock_bajo": p.stock < 5,
+                "sku": producto.sku,
+                "nombre": producto.nombre,
+                "stock": producto.stock,
+                "precio": producto.precio,
+                "stock_bajo": producto.stock < 5,
             }
-            for p in productos
+            for producto in productos
         ]

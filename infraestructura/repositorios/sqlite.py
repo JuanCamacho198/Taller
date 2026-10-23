@@ -1,6 +1,7 @@
 from dominio.entidades import Producto
 from dominio.puertos import ProductoRepositorioPort
-from .db import get_connection
+
+from ..persistencia.db import get_connection
 
 
 class SQLiteProductoRepositorio(ProductoRepositorioPort):

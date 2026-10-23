@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from .entidades import Producto
+
+from ..entidades import Producto
 
 
 class ProductoRepositorioPort(ABC):

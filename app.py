@@ -1,5 +1,5 @@
 from flask import Flask, redirect
-from infraestructura.db import init_db
+from infraestructura.persistencia.db import init_db
 from infraestructura.controladores import bp
 
 

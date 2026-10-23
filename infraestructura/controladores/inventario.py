@@ -1,13 +1,14 @@
 from flask import Blueprint, jsonify, redirect, render_template, request, url_for
+from dominio.entidades import Producto
 from dominio.servicios import (
     ServicioAgregarProducto,
-    ServicioVerificarDisponibilidad,
-    ServicioRegistrarMovimiento,
     ServicioObtenerProducto,
     ServicioObtenerResumen,
+    ServicioRegistrarMovimiento,
+    ServicioVerificarDisponibilidad,
 )
-from dominio.entidades import Producto
-from .repositorios import SQLiteProductoRepositorio
+
+from ..repositorios import SQLiteProductoRepositorio
 
 bp = Blueprint("inventario", __name__, url_prefix="/inventario")
 repo = SQLiteProductoRepositorio()

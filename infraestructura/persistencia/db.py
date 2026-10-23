@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "inventario.db")
+DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "inventario.db")
 
 
 def get_connection() -> sqlite3.Connection:
