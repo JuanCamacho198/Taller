@@ -1,0 +1,69 @@
+[MASTER]
+# Keep the application layers explicit and avoid hidden import paths.
+ignore=__pycache__,.venv
+
+[MESSAGES CONTROL]
+enable=cyclic-import,
+       import-error,
+       relative-beyond-top-level,
+       wrong-import-order,
+       unused-import,
+       wildcard-import,
+       redefined-outer-name,
+       protected-access,
+       undefined-variable,
+       unused-variable,
+       possibly-used-before-assignment,
+       inconsistent-return-statements,
+       broad-exception-caught,
+       bare-except,
+       raise-missing-from,
+       dangerous-default-value,
+       duplicate-code,
+       too-many-arguments,
+       too-many-locals,
+       too-many-branches,
+       too-many-statements,
+       line-too-long,
+       invalid-name,
+       missing-function-docstring,
+       missing-class-docstring,
+       fixme
+
+[BASIC]
+argument-naming-style=snake_case
+attr-naming-style=snake_case
+class-attribute-naming-style=any
+class-const-naming-style=UPPER_CASE
+class-naming-style=PascalCase
+const-naming-style=UPPER_CASE
+function-naming-style=snake_case
+include-naming-hint=yes
+inlinevar-naming-style=snake_case
+method-naming-style=snake_case
+module-naming-style=snake_case
+variable-naming-style=snake_case
+
+[FORMAT]
+max-line-length=100
+
+[DESIGN]
+max-args=5
+max-attributes=7
+max-branches=12
+max-locals=15
+max-parents=7
+max-public-methods=20
+max-returns=6
+max-statements=50
+min-public-methods=2
+
+[REFACTORING]
+never-returning-functions=sys.exit,argparse.parse_error
+
+[TYPECHECK]
+ignored-modules=flask
+
+[REPORTS]
+reports=no
+score=no
