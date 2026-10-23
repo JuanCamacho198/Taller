@@ -1,37 +1,76 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card">
-<h2>1. Verificar disponibilidad (sku -&gt; bool)</h2>
-<form method="get" action="{{ url_for('inventario.vista') }}">
-<input name="sku_verificar" placeholder="SKU001" value="{{ sku_verificar or '' }}">
+<div class="workspace">
+<section class="card card--accent">
+<p class="section-kicker">01 · Alta</p>
+<h2>Agregar producto</h2>
+<p class="hint">Registra una nueva referencia en tu inventario.</p>
+<form method="post" action="{{ url_for('inventario.ui_agregar_producto') }}">
+<div class="field"><label for="new-sku">SKU</label><input id="new-sku" name="sku" placeholder="SKU001" required></div>
+<div class="field"><label for="new-name">Nombre</label><input id="new-name" name="nombre" placeholder="Tornillo" required></div>
+<div class="field"><label for="new-stock">Stock</label><input id="new-stock" name="stock" type="number" min="0" placeholder="10" required></div>
+<div class="field"><label for="new-price">Precio</label><input id="new-price" name="precio" type="number" min="0" step="0.01" placeholder="0.50" required></div>
+<button type="submit">Agregar</button>
+</form>
+</section>
+
+<section class="card">
+<p class="section-kicker">02 · Consulta</p>
+<h2>Disponibilidad</h2>
+<p class="hint">Comprueba si una referencia tiene unidades.</p>
+<form class="inline-form" method="get" action="{{ url_for('inventario.vista') }}">
+<div class="field"><label for="check-sku">Referencia</label><input id="check-sku" name="sku_verificar" placeholder="SKU001" value="{{ sku_verificar or '' }}"></div>
 <button type="submit">Verificar</button>
 </form>
 {% if disponible is not none %}
-<p class="{{ 'ok' if disponible else 'err' }}">Disponible: {{ disponible }}</p>
+<p class="availability {{ 'ok' if disponible else 'err' }}">{{ 'Disponible para venta' if disponible else 'Sin stock disponible' }}</p>
 {% endif %}
-</div>
+</section>
 
-<div class="card">
-<h2>2. Registrar movimiento (sku + cantidad -&gt; void)</h2>
-<form method="post" action="{{ url_for('inventario.ui_movimiento') }}">
-<input name="sku" placeholder="SKU" required>
-<input name="cantidad" type="number" placeholder="+5 / -3" required>
+<section class="card">
+<p class="section-kicker">03 · Movimiento</p>
+<h2>Actualizar stock</h2>
+<p class="hint">Suma entradas o descuenta salidas del almacén.</p>
+<form class="inline-form" method="post" action="{{ url_for('inventario.ui_movimiento') }}">
+<div class="field"><label for="movement-sku">Referencia</label><input id="movement-sku" name="sku" placeholder="SKU001" required></div>
+<div class="field"><label for="movement-amount">Cantidad</label><input id="movement-amount" name="cantidad" type="number" placeholder="+5 / -3" required></div>
 <button type="submit">Guardar</button>
 </form>
-{% if mensaje %}<p class="{{ 'err' if error else 'ok' }}">{{ mensaje }}</p>{% endif %}
-</div>
+{% if mensaje %}<p class="notice {{ 'err' if error else '' }}">{{ mensaje }}</p>{% endif %}
+</section>
 
-<div class="card">
-<h2>3. Resumen (sin params -&gt; lista)</h2>
+<section class="card">
+<p class="section-kicker">04 · Detalle</p>
+<h2>Consultar producto</h2>
+<p class="hint">Busca una referencia y consulta toda su información.</p>
+<form class="inline-form" method="get" action="{{ url_for('inventario.vista') }}">
+<div class="field"><label for="product-sku">Referencia</label><input id="product-sku" name="sku_producto" placeholder="SKU001" value="{{ sku_producto or '' }}"></div>
+<button type="submit">Consultar</button>
+</form>
+{% if producto_consultado %}
+<div class="product-detail"><strong>{{ producto_consultado.nombre }}</strong><span>{{ producto_consultado.sku }}</span><span>{{ producto_consultado.stock }} uds.</span><span>${{ '%.2f'|format(producto_consultado.precio) }}</span></div>
+{% elif error_producto %}
+<p class="notice err">{{ error_producto }}</p>
+{% endif %}
+</section>
+
+<section class="card card--wide">
+<p class="section-kicker">05 · Resumen</p>
+<h2>Existencias actuales</h2>
+<div class="table-wrap">
 <table>
-<tr><th>SKU</th><th>Nombre</th><th>Stock</th><th>Precio</th><th>Estado</th></tr>
+<thead><tr><th>SKU</th><th>Producto</th><th>Stock</th><th>Precio</th><th>Estado</th></tr></thead>
+<tbody>
 {% for p in resumen %}
 <tr>
-<td>{{ p.sku }}</td><td>{{ p.nombre }}</td><td>{{ p.stock }}</td>
-<td>{{ p.precio }}</td>
-<td>{% if p.stock_bajo %}<span class="bajo">bajo</span>{% else %}ok{% endif %}</td>
+<td class="sku">{{ p.sku }}</td><td>{{ p.nombre }}</td><td class="stock">{{ p.stock }} uds.</td>
+<td>${{ '%.2f'|format(p.precio) }}</td>
+<td><span class="status {{ 'bajo' if p.stock_bajo else '' }}">{{ 'Stock bajo' if p.stock_bajo else 'En niveles' }}</span></td>
 </tr>
 {% endfor %}
+</tbody>
 </table>
+</div>
+</section>
 </div>
 {% endblock %}
