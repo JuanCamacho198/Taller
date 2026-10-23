@@ -3,32 +3,10 @@
 ignore=__pycache__,.venv
 
 [MESSAGES CONTROL]
-enable=cyclic-import,
-       import-error,
-       relative-beyond-top-level,
-       wrong-import-order,
-       unused-import,
-       wildcard-import,
-       redefined-outer-name,
-       protected-access,
-       undefined-variable,
-       unused-variable,
-       possibly-used-before-assignment,
-       inconsistent-return-statements,
-       broad-exception-caught,
-       bare-except,
-       raise-missing-from,
-       dangerous-default-value,
-       duplicate-code,
-       too-many-arguments,
-       too-many-locals,
-       too-many-branches,
-       too-many-statements,
-       line-too-long,
-       invalid-name,
+disable=missing-module-docstring,
        missing-function-docstring,
        missing-class-docstring,
-       fixme
+       too-few-public-methods
 
 [BASIC]
 argument-naming-style=snake_case

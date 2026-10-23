@@ -4,15 +4,15 @@ from infraestructura.controladores import bp
 
 
 def create_app() -> Flask:
-    app = Flask(__name__)
+    application = Flask(__name__)
     init_db()
-    app.register_blueprint(bp)
+    application.register_blueprint(bp)
 
-    @app.get("/")
+    @application.get("/")
     def index():
         return redirect("/inventario/")
 
-    return app
+    return application
 
 
 app = create_app()
