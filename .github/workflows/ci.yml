@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: python -m pip install -r requirements.txt
+
+      - name: Ejecutar Ruff
+        run: python -m ruff check .
+
+      - name: Ejecutar Pylint y exigir mínimo de 80%
+        shell: bash
+        run: |
+          set +e
+          python -m pylint app.py dominio infraestructura --rcfile=.pylintrc --score=yes --reports=no 2>&1 | tee pylint-report.txt
+          pylint_status=${PIPESTATUS[0]}
+          set -e
+
+          if [ "$pylint_status" -ne 0 ]; then
+            echo "Pylint encontró errores."
+            exit "$pylint_status"
+          fi
+
+          score=$(sed -n 's/.*rated at \([0-9.]*\)\/10.*/\1/p' pylint-report.txt | tail -n 1)
+          if [ -z "$score" ]; then
+            echo "No se pudo obtener la puntuación de Pylint."
+            exit 1
+          fi
+
+          python - "$score" <<'PY'
+          import sys
+
+          score = float(sys.argv[1])
+          minimum = 8.0
+          print(f"Puntuación Pylint: {score:.2f}/10")
+          if score < minimum:
+              print(f"La puntuación debe ser al menos {minimum:.2f}/10.")
+              raise SystemExit(1)
+          PY
