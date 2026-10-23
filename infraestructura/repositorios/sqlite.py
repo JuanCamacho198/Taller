@@ -24,7 +24,9 @@ class SQLiteProductoRepositorio(ProductoRepositorioPort):
     def listar_todos(self) -> list[Producto]:
         with get_connection() as conn:
             rows = conn.execute("SELECT * FROM productos").fetchall()
-            return [Producto(r["sku"], r["nombre"], r["stock"], r["precio"]) for r in rows]
+            return [
+                Producto(r["sku"], r["nombre"], r["stock"], r["precio"]) for r in rows
+            ]
 
     def actualizar_stock(self, sku: str, nuevo_stock: int) -> None:
         with get_connection() as conn:

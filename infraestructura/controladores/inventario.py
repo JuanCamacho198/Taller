@@ -43,12 +43,14 @@ def agregar_producto():
 @bp.get("/productos/<sku>")
 def obtener_producto(sku: str):
     producto = ServicioObtenerProducto(repo).ejecutar(sku)
-    return jsonify({
-        "sku": producto.sku,
-        "nombre": producto.nombre,
-        "stock": producto.stock,
-        "precio": producto.precio,
-    })
+    return jsonify(
+        {
+            "sku": producto.sku,
+            "nombre": producto.nombre,
+            "stock": producto.stock,
+            "precio": producto.precio,
+        }
+    )
 
 
 @bp.get("/resumen")
